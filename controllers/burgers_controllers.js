@@ -1,44 +1,54 @@
 var express = require('express');
 var burger_router = express.Router();
-var burger_call = require('../models/burger.js');
-var bodyParser = require('body-parser');
+var burger = require('../models/burger.js');
 
-burger_router.use(bodyParser.json());
-burger_router.use(bodyParser.urlencoded({extended: false}));
-burger_router.use(bodyParser.text());
-burger_router.use(bodyParser.json({type:'application/vnd.api+json'}));
+// Create the router for the app, and export the router at the end of your file.
+// Create routes and set up logic where required.
+burger_router.get("/", function (req, res) {
+    burger.read(function(data) {
+        var hbsObject = {
+            burgers: data
+        };
+        console.log(hbsObject);
+        res.render("index", hbsObject);
+    });
+});
+// Add new burger to the db.
+burger_router.post("/api/burgers", function (req, res) {
+    console.log(req.body)
+    burger.insert( [req.body.burger_name, req.body.devoured], function(result) {
+        // Send back the ID of the new burger
+        res.json({ id: result.insertId });
+    });
+});
+// Set burger devoured status to true.
+burger_router.put("/api/burgers/:id", function(req, res) {
+    var condition = "id = " + req.params.id;
 
-burger_router.get('/', function(req,res){
-  res.redirect('/burger');
+    console.log("condition", condition);
+
+    burger.updateOne({ devoured: req.body.devoured }, condition, function(result) {
+        if (result.changedRows === 0) {
+            // If no rows were changed, then the ID must not exist, so 404.
+            return res.status(404).end();
+        } else {
+            res.status(200).end();
+        }
+    });
+});
+// Delete burger from db.
+burger_router.delete("/api/burgers/:id", function(req, res) {
+    var condition = "id = " + req.params.id;
+    console.log("condition", condition);
+
+    burger.deleteOne(condition, function(result) {
+        if (result.changedRows === 0) {
+            // If no rows were changed, then the ID must not exist, so 404.
+            return res.status(404).end();
+        } else {
+            res.status(200).end();
+        }
+    });
 });
 
-burger_router.get('/burger', function(req,res){
-  burger_call.read(function(data){
-    // console.log(data);
-    var hbs_object = {burger: data};
-    // console.log(hbs_object);
-    res.render('index', hbs_object);
-  });
-});
-
-burger_router.post('/burger/add', function(req, res){
-  // console.log(req.body.user_burger)
-  burger_call.insert(req.body.user_burger, function(data){
-    res.redirect('/burger');
-  });
-});
-
-burger_router.put('/burger/update/:id?', function(req,res){
-  var user_id = parseInt(req.params.id);
-  burger_call.update(user_id, function(data){
-    res.redirect('/burger');
-  });
-});
-
-burger_router.put('/burger/delete/:id?', function(req,res){
-  var user_id = parseInt(req.params.id);
-  burger_call.delete(user_id, function(data){
-    res.redirect('/burger');
-  });
-});
 module.exports = burger_router;

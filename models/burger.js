@@ -2,7 +2,7 @@ var orm = require('../config/orm.js');
 
 var burger_call = {
   insert: function(some_val, cb){
-    orm.insert('burgers_tbl', 'burger_name', some_val, function(res){
+    orm.insertOne('burgers_tbl', 'burger_name, devoured', some_val, function(res){
       cb(res);
     });
   },

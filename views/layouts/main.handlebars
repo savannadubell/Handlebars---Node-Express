@@ -1,17 +1,26 @@
-<!--
-Here is the main HTML where handlebars will render to
- -->
-
+{{!-- Setup the main.handlebars file so it's able to be used by Handlebars. --}}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<title>Eat A Burger</title>
+		<title>Burger App</title>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="/assets/css/burger_style.css" type="text/css">
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery.js"></script>
+		<!-- Bootstap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<!-- Font Awesome Icons -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Custom Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+		<!-- Javascript -->
+		<script src="/assets/js/burger.js"></script>
 	</head>
 	<body>
-			{{{ body }}}
+		{{{ body }}}
 	</body>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </html>

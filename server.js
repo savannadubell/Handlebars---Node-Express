@@ -1,29 +1,31 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+// Dependencies
+var express = require("express");
+var bodyParser = require("body-parser");
 var methodOverride = require('method-override');
-var path = require('path')
-var app = express();
 
+var app = express();
 var PORT = process.env.PORT || 3000;
 
-//Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static(process.cwd() + '/public'));
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
 
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(methodOverride('_method'))
-var exphbs = require('express-handlebars');
-app.engine('hbs', exphbs({
-    defaultLayout: 'main'
-}));
+// parse application/json
+app.use(bodyParser.json());
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+// Set Handlebars.
+var exphbs = require("express-handlebars");
 
-var routes = require('./controllers/burgers_controllers.js');
-app.use('/', routes);
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
+// Import routes and give the server access to them.
+var routes = require("/Users/savannadubell/Documents/Bootcamp/Homework/Handlebars- Node Express /controllers/burgers_controllers.js");
 
-app.listen(PORT);
+app.use(routes);
+
+app.listen(PORT, function() {
+    console.log("Server listening on: http://localhost:" + PORT);
+});
